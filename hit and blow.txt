@@ -250,7 +250,7 @@ whileend
 ---------prog "sub hb show"---------
 
 for y=1 to 4
-    g=f*(n-p+y)
+    g=f*(n-p+y+2)
     for x=1 to a
         z=z[g+x]
         if z==-1:then
