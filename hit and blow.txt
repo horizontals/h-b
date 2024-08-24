@@ -1,0 +1,271 @@
+"""
+a:length 2-9
+b:char 2-36 但しc=0ならb>=a
+c:generation overlap accept:1true not accept:0false
+d:write overlap 但しc=1ならd=1
+e:1 row disp / 2 rows disp
+f:kari a+2
+
+ghij:temp
+
+k:getkey
+l:prog"keyto36" 0-35
+
+n:try数目
+o:入力目
+p:表示行目
+q:クリア判定
+
+xyz:prog"locate36"
+
+z[]: 0-35,H,B,(空白2個あり) 0:まだ 1:もうやった
+z=[0,35, , ,0,0, , ,0,0, , ,3,5,1,2,-1,-1,-1,-1,....]
+        x x qst x x wri x x
+ふつうは-1とする
+
+=======================
+settings
+
+set
+    配列設定
+    cls
+    画面を作る
+keyloop
+    getkey
+    0-z -> z[] show (スクロール)
+    del -> z[] show　(スクロール)
+    exe -> cal z[] show clear or 画面を作る　(スクロールのみ)
+    u/d -> show
+clear
+
+
+exe -> 確定 スクロール regame
+====================
+
+
+1234567890123456
+SETTING 1
+  LENGTH:      3
+  FIGURE KIND:10
+  QSTN OVERLAP:X
+1234567890123456
+SETTING 2
+  ANS OVERLAP: F
+  DISPLAY MODE:1
+  [EXE] TO START
+1234567890123456
+123         1H2B
+321         3clr
+"""
+
+do
+k=47
+doend k!=47
+
+a=9
+b=10
+c=0
+d=1
+e=1
+f=a+2
+
+do  #setting
+    do
+        k=getkey
+    doend k==0
+
+
+    while getkey
+    whileend
+doend k!=47
+
+lbl c
+
+a>=10 ->return
+dimz=0
+dimz=4*f
+#本当なら-1を入れたいが、再描画は発生しないのでいらない
+if c:then   #make random answer
+    for g=1 to a
+        z[g]=ranint#(0,b-1)
+    next
+else
+    for g=1 to a
+        lbl a
+        z[g]=ranint(0,b-1)
+        for h=1 to g-1
+            z[g]=z[h] -> goto a
+        next
+    next
+ifend
+n=1
+o=1
+p=1
+q=0
+cls
+for g=1 to a
+    locate g,1,"-"
+next
+#gamesetup up to here
+
+lbl b
+
+while getkey
+whileend
+
+while 1     #getkey cycle
+    do
+        k=getkey
+    doend k=0
+    prog "keyto36"
+
+    if l!=-1 and l<=b-1 and o<=a and !q:then
+        if d==0:then
+            for g=1 to o-1
+                z[f*(n+2)+o]==z[f*(n+2)+g] -> goto b
+            next
+        ifend
+        
+        z[f*(n+2)+o]=l
+        
+        if p>=5:then
+            p=4
+            prog "sub hb show"
+        else
+            if l<=9:then
+                locate o,p,l
+            else
+                x=o
+                y=p
+                z=l
+                locate36
+            ifend
+        ifend
+
+        o++
+
+    else if k==del and o!=1 and !q:then
+
+        o--
+
+        z[f*(n+2)+o]=-1
+
+        if p>=5:then
+            p=4
+            prog "sub hb show"
+        else
+            locate o,p,"-"
+        ifend
+
+    else if k==up and n-p>=1:then
+        p++
+        prog "sub hb show"
+    else if k==down and p>=5:then
+        p--
+        prog "sub hb show"
+
+    else if k==exe:then
+        if q:then   #regame
+            goto c
+
+        else if p>=5:then   #スクロール
+            p=4
+            prog "sub hb show"
+
+        else if o==a+1:then   #確定
+
+            #set
+            i=0     #hit
+            j=0     #blow
+            for g=1 to 2f
+                z[f+g]=0
+            next
+
+
+            for g=1 to a
+                if z[g]==z[f*(n+2)+g]:then
+                    z[f+g]=1
+                    z[f*2+g]=1
+                    i++
+                ifend
+            next
+            for g=1 to a    #blow   g:qst
+                for h=1 to a    #h:wri
+                    if not( z[f+g] or z[f*2+h] ) and z[g]==z[f*(n+2)+h]:then
+                        z[f+g]=1
+                        z[f*2+h]=1
+                        j++
+                    ifend
+                next
+            next
+            z[f*(n+3)-1]=i
+            z[f*(n+3)]=j
+            locate 14,p,"H B"
+            locate 13,p,i
+            locate 15,p,j
+            if i==a:then
+                q=1
+                locate 14,p,"clr"
+            else
+                n++
+                o=1
+                dimz=f*(n+3)
+                for g=f*(n+2)+1 to f*(n+3)
+                    z[g]=-1
+                next
+################                for g=1 to a
+################                    z[f*(n+2)+g]=-1
+################                next
+                if p<=3:then
+                    p++
+                    for g=1 to a
+                        locate g,p,"-"
+                    next
+                else
+                    prog "sub hb show"
+                ifend
+            ifend
+
+        ifend
+        ifend
+        ifend
+        
+
+
+    ifend
+    ifend
+    ifend
+    ifend
+    ifend
+
+    while getkey
+    whileend
+whileend
+
+#clear
+
+
+
+
+---------prog "sub hb show"---------
+
+for y=1 to 4
+    g=f*(n-p+y)
+    for x=1 to a
+        z=z[g+x]
+        if z==-1:then
+            locate x,y,"-"
+        else if z<=9:then
+            locate x,y,z
+        else
+            prog "locate36"
+        ifend
+        ifend
+    next
+    if z[g+f]!=-1:then
+        locate 14,y,"H B"
+        locate 13,y,z[g+f-1]
+        locate 15,y,z[g+f]
+    ifend
+    q and p=4 -> locate 14,4,"clr"
+next
