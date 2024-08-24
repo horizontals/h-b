@@ -262,7 +262,9 @@ for y=1 to 4
         ifend
         ifend
     next
-    if z[g+f]!=-1:then
+    if z[g+f]=-1:then
+        locate 13,y,"    "
+    else
         locate 14,y,"H B"
         locate 13,y,z[g+f-1]
         locate 15,y,z[g+f]
