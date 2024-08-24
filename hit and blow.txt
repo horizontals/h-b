@@ -2,7 +2,7 @@
 a:length 2-9
 b:char 2-36 但しc=0ならb>=a
 c:generation overlap accept:1true not accept:0false
-d:write overlap 但しc=1ならd=1
+d:write overlap
 e:1 row disp / 2 rows disp
 f:kari a+2
 
@@ -15,6 +15,8 @@ n:try数目
 o:入力目
 p:表示行目
 q:クリア判定
+
+r:行目 for settings
 
 xyz:prog"locate36"
 
@@ -44,12 +46,12 @@ exe -> 確定 スクロール regame
 
 
 1234567890123456
-SETTING 1
+SETTINGS 1
   LENGTH:      3
   FIGURE KIND:10
   QSTN OVERLAP:X
 1234567890123456
-SETTING 2
+SETTINGS 2
   ANS OVERLAP: F
   DISPLAY MODE:1
   [EXE] TO START
@@ -58,9 +60,6 @@ SETTING 2
 321         3clr
 """
 
-do
-k=47
-doend k!=47
 
 a=9
 b=10
@@ -69,11 +68,51 @@ d=1
 e=1
 f=a+2
 
+
+c!=1 and c!=0 => c=0
+a<=1 or 10<=a or frac(a)!=0 => a=3
+b<=1 or 37<=b or frac(b)!=0 => b=10
+d!=1 and d!=0 => d=1
+e!=1 and e=2 => e=1
+
+cls
+
+">tLENGTH:       
+  FIGURE KIND:  
+  QSTN OVERLAP:
+  ANS OVERLAP: "
+
+locate 2,1," "
+locate 16,1,a
+a<=9 =>locate 16,2,b
+a>=10 =>locate 15,2,b
+c => locate 16,3,"O"
+not c => locate 16,3,"x"
+d => locate 16,4,"O"
+not d => locate 16,4,"x"
+
+r=1
+
 do  #setting
     do
         k=getkey
     doend k==0
 
+    if k==up and r!=1
+    then
+        locate 1,r,"  "
+        dsz r
+        locate 1,r,">t"
+        locate 2,r," "
+    else if k==down and r!=4
+    then
+        locate 1,r,"  "
+        isz r
+        locate 1,r,">t"
+        locate 2,r," "
+    else if k==right
+        then
+        if r=1........................
 
     while getkey
     whileend
