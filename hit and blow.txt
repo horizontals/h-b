@@ -5,6 +5,7 @@ c:generation overlap accept:1true not accept:0false
 d:write overlap
 e:1 row disp / 2 rows disp
 f:kari a+2
+m:fast show
 
 ghij:temp
 
@@ -25,11 +26,13 @@ z=[0,35, , ,0,0, , ,0,0, , ,3,5,1,2,-1,-1,-1,-1,....]
         x x qst x x wri x x
 ふつうは-1とする
 
+abcdefghijkl nopqr     xyz
+            m     stuvw
 
 ==========これからしたいこと===============
-終了時にtry数を表示 or ヘッダーを表示
-高速化としてHB,hedderを非表示
-あと、up down 中に up down の割り込みを許可
+終了時にtry数を表示 or ***ヘッダーを表示
+**高速化としてHB,hedderを非表示
+*あと、up down 中に up down の割り込みを許可
 ==========================================
 
 =======================
@@ -317,3 +320,52 @@ for y=1 to 4
     ifend
     q and p=4 -> locate 14,4,"clr"
 next
+
+
+
+-----------------locate36------------
+if z<=9
+    then if z=-1 
+        then locate
+        else locate z
+        ifend
+    else if z<=15
+        then if z<=12
+            then 10 => locate a
+            11 b
+            12 c
+            else 13 d
+            14 e
+            15 f
+            ifend
+        else if z<=23
+            then if z<=19
+                then 16 g
+                17 h
+                18 i
+                19 j
+                else 20 k
+                21 l
+                22 m
+                23 n
+                ifend
+            else if Z<=31
+                then if z<=27
+                    then 24 o
+                    25 p
+                    26 q
+                    27 r
+                    else 28 s
+                    29 t
+                    30 u
+                    31 v
+                    ifend
+                else 32 w
+                33 x
+                34 y
+                35 z
+                ifend
+            ifend
+        ifend
+    ifend
+ifend
