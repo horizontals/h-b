@@ -259,7 +259,7 @@ while 1     #getkey cycle
             locate 15,p,j
             if i==a:then
                 q=1
-                locate 14,p,"clr"
+                locate 14,p,"CLR"
             else
                 n++
                 o=1
@@ -323,7 +323,7 @@ for y=1 to 4
         locate 13,y,z[g+f-1]
         locate 15,y,z[g+f]
     ifend
-    q and p=4 -> locate 14,4,"clr"
+    q and p=4 -> locate 14,4,"CLR"
 next
 
 
