@@ -158,6 +158,7 @@ cls
 for g=1 to a
     locate g,1,"-"
 next
+locate 16,1,1
 #gamesetup up to here
 
 lbl b
@@ -254,12 +255,12 @@ while 1     #getkey cycle
             next
             z[f*(n+3)-1]=i
             z[f*(n+3)]=j
-            locate 14,p,"H B"
-            locate 13,p,i
-            locate 15,p,j
+            locate 12,p,"H B"
+            locate 11,p,i
+            locate 13,p,j
             if i==a:then
                 q=1
-                locate 14,p,"CLR"
+                locate 12,p,"CLR"
             else
                 n++
                 o=1
@@ -275,6 +276,11 @@ while 1     #getkey cycle
                     for g=1 to a
                         locate g,p,"-"
                     next
+                    if n<=9:then
+                        locate 16,p,n
+                    else
+                        locate 15,p,n
+                    ifend
                 else
                     prog "sub hb show"
                 ifend
@@ -317,13 +323,18 @@ for y=1 to 4
         ifend
     next
     if z[g+f]=-1:then
-        locate 13,y,"    "
+        locate 11,y,"      "
     else
-        locate 14,y,"H B"
-        locate 13,y,z[g+f-1]
-        locate 15,y,z[g+f]
+        locate 12,y,"H B  "
+        locate 11,y,z[g+f-1]
+        locate 13,y,z[g+f]
     ifend
-    q and p=4 -> locate 14,4,"CLR"
+    if n-p+y<=9:then
+        locate 16,p,n-p+y
+    else
+        locate 15,p,n-p+y
+    ifend
+    q and p=4 -> locate 12,4,"CLR"
 next
 
 
