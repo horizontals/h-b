@@ -245,6 +245,7 @@ while 1     #getkey cycle
                 ifend
             next
             for g=1 to a    #blow   g:qst
+                #early return gで既にダメな時
                 for h=1 to a    #h:wri
                     if not( z[f+g] or z[f*2+h] ) and z[g]==z[f*(n+2)+h]:then
                         z[f+g]=1
